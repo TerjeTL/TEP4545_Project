@@ -3,7 +3,7 @@ Check file changes (staged/unstaged) and number of commits ahead/behind upstream
 git status
 ```
 
-Download changes on all branches and apply <upstream> changes to <this> branch
+Download changes on all branches and apply upstream changes to this branch
 ```git
 git pull
 ```
