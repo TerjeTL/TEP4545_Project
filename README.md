@@ -25,6 +25,11 @@ Upload your commits... (you might have to set origin if it's the first commit on
 git push
 ```
 
+Change to a different branch 'feature/something_existing'
+```git
+git checkout feature/something_existing
+```
+  
 Create and change to new branch 'feature/something_new' and take current changes with you
 ```git
 git checkout -b feature/something_new
