@@ -19,12 +19,12 @@ scale   1;
 // Setting up the extreme dimensions
 
 Re  1000; // Should be < 2000 according to Nakamura et al. (1991())
-xmax 1;//#calc "0.0575*$Re";; // Using formula for entry length from wikipedia:  https://en.wikipedia.org/wiki/Entrance_length_(fluid_dynamics)#Calculating_hydrodynamic_entrance_length
+xmax #calc "0.0575*$Re";; // Using formula for entry length from wikipedia:  https://en.wikipedia.org/wiki/Entrance_length_(fluid_dynamics)#Calculating_hydrodynamic_entrance_length
 xmin 0.0;
 ymax 1.0; // keeping h = 1
 ymin 0;
-zmin -0.1;//#calc "-0.5*$xmax"; // needs to be ~0.5*xmax for 2D sims
-zmax 0.1;//#calc "-0.5*$xmax"; // needs to be ~0.5*xmax for 2D sims
+zmin #calc "-0.5*$xmax"; // needs to be ~0.5*xmax for 2D sims
+zmax #calc "0.5*$xmax"; // needs to be ~0.5*xmax for 2D sims
 
 
 
