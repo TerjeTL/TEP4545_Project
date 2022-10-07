@@ -39,13 +39,35 @@ solvers
     }
 }
 
-PISO
+SIMPLE
 {
-    nCorrectors     2;
     nNonOrthogonalCorrectors 0;
-    pRefCell        0;
-    pRefValue       0;
+
+
+    residualControl
+    {
+        p               1e-6;
+        U               1e-6;
+        "(k|epsilon|omega)" 1e-6;
+    }
+
+    consistent          yes;
+
 }
+
+relaxationFactors
+{
+    equations
+    {
+        U               0.9;
+        k               0.8;
+        epsilon         0.7;
+        nuTilda         0.8;
+        omega           0.8;
+    }
+}
+
+
 
 
 // ************************************************************************* //

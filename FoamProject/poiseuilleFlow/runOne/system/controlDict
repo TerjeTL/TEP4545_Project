@@ -14,7 +14,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application     icoFoam;
+application     simpleFoam; // Problem is steady state, so no point in using transient solver
 
 startFrom       startTime;
 
@@ -22,15 +22,15 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         0.5;
+endTime         1000; // # of iterations
 
-deltaT          0.005;
+deltaT          1;
 
 writeControl    timeStep;
 
-writeInterval   20;
+writeInterval   200; 
 
-purgeWrite      0;
+purgeWrite      1; // Only interested in final solution, so no point in storing intermediate results
 
 writeFormat     ascii;
 

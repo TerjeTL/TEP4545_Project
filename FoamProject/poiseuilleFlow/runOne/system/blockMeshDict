@@ -23,8 +23,8 @@ xmax #calc "0.0575*$Re"; // Using formula for laminar entry length from wikipedi
 xmin 0.0;
 ymax 1.0; // keeping h = 1
 ymin 0;
-zmin #calc "-0.05*$ymax"; // needs to be ~0.5*xmax for 2D sims
-zmax #calc "0.05*$ymax"; // needs to be ~0.5*xmax for 2D sims
+zmin #calc "-0.05*$ymax"; // needs to be ~0.5*ymax for 2D sims
+zmax #calc "0.05*$ymax"; // needs to be ~0.5*ymax for 2D sims
 
 Ycells 20;
 cellRatioXY #calc "$Ycells*ceil($xmax / $ymax)"; // Fixing cell ratio so cell aspect ratio is ~1
@@ -53,7 +53,22 @@ edges
 
 boundary
 (
-    movingWall
+    inlet
+    {
+        type patch;
+        (
+            (0 4 7 3)
+        );
+    }
+    outlet
+    {
+        type patch;
+        (
+            (2 6 5 1)
+        );
+    }
+
+    topWall
     {
         type wall;
         faces
@@ -61,13 +76,11 @@ boundary
             (3 7 6 2)
         );
     }
-    fixedWalls
+    lowerWall
     {
         type wall;
         faces
         (
-            (0 4 7 3)
-            (2 6 5 1)
             (1 5 4 0)
         );
     }
