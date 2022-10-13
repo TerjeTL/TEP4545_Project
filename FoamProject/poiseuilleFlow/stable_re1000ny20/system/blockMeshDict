@@ -1,0 +1,101 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2206                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+scale   1;
+
+// Setting up the extreme dimensions
+
+Re  1000; // Should be < 2000 according to Nakamura et al. (1991)
+xmax #calc "0.0575*$Re"; // Using formula for laminar entry length from wikipedia:  https://en.wikipedia.org/wiki/Entrance_length_(fluid_dynamics)#Calculating_hydrodynamic_entrance_length
+xmin 0.0;
+ymax 1.0; // keeping h = 1
+ymin 0;
+zmin #calc "-0.05*$ymax"; // needs to be ~0.5*ymax for 2D sims
+zmax #calc "0.05*$ymax"; // needs to be ~0.5*ymax for 2D sims
+
+Ycells 20;
+cellRatioXY #calc "$Ycells*ceil($xmax / $ymax)"; // Fixing cell ratio so cell aspect ratio is ~1
+
+vertices 
+(
+    ($xmin $ymin $zmin) // 0 | Origin
+    ($xmax $ymin $zmin) // 1
+    ($xmax $ymax $zmin) // 2
+    ($xmin $ymax $zmin) // 3
+
+    ($xmin $ymin $zmax) // 4 | 0
+    ($xmax $ymin $zmax) // 5 | 1
+    ($xmax $ymax $zmax) // 6 | 2
+    ($xmin $ymax $zmax) // 7 | 3
+);
+
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) ($cellRatioXY $Ycells 1) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    inlet
+    {
+        type patch;
+        faces
+        (
+            (0 4 7 3)
+        );
+    }
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (2 6 5 1)
+        );
+    }
+
+    topWall
+    {
+        type wall;
+        faces
+        (
+            (3 7 6 2)
+        );
+    }
+    lowerWall
+    {
+        type wall;
+        faces
+        (
+            (1 5 4 0)
+        );
+    }
+    frontAndBack
+    {
+        type empty;
+        faces
+        (
+            (0 3 2 1)
+            (4 5 6 7)
+        );
+    }
+);
+
+
+// ************************************************************************* //
