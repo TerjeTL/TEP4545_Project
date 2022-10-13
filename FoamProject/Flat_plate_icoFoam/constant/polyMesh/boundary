@@ -1,0 +1,97 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  10
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       polyBoundaryMesh;
+    location    "constant/polyMesh";
+    object      boundary;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+11
+(
+    back
+    {
+        type            empty;
+        physicalType    patch;
+        nFaces          25556;
+        startFace       46434;
+    }
+    front
+    {
+        type            empty;
+        physicalType    patch;
+        nFaces          25556;
+        startFace       71990;
+    }
+    wall_top
+    {
+        type            patch;
+        physicalType    patch;
+        nFaces          397;
+        startFace       97546;
+    }
+    wall_base
+    {
+        type            patch;
+        physicalType    patch;
+        nFaces          397;
+        startFace       97943;
+    }
+    plate_base
+    {
+        type            patch;
+        physicalType    patch;
+        nFaces          79;
+        startFace       98340;
+    }
+    plate_trailing
+    {
+        type            patch;
+        physicalType    patch;
+        nFaces          9;
+        startFace       98419;
+    }
+    plate_top
+    {
+        type            patch;
+        physicalType    patch;
+        nFaces          79;
+        startFace       98428;
+    }
+    plate_leading
+    {
+        type            patch;
+        physicalType    patch;
+        nFaces          9;
+        startFace       98507;
+    }
+    inlet
+    {
+        type            patch;
+        physicalType    patch;
+        nFaces          19;
+        startFace       98516;
+    }
+    outlet
+    {
+        type            patch;
+        physicalType    patch;
+        nFaces          19;
+        startFace       98535;
+    }
+    defaultFaces
+    {
+        type            empty;
+        nFaces          3204;
+        startFace       98554;
+    }
+)
+
+// ************************************************************************* //

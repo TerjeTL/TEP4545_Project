@@ -128,43 +128,7 @@ Transfinite Surface {8};
 Transfinite Surface {11};
 Recombine Surface {2, 3, 6, 4, 5, 7, 9, 12, 13, 10, 8, 11};
 
-Extrude {0, 0, 0.1} {
-    Curve{1};
-    Curve{2};
-    Curve{3};
-    Curve{4};
-    Curve{5};
-    Curve{6};
-    Curve{7};
-    Curve{8};
-    Curve{9};
-    Curve{10};
-    Curve{11};
-    Curve{12};
-    Curve{13};
-    Curve{14};
-    Curve{15};
-    Curve{16};
-    Curve{17};
-    Curve{18};
-    Curve{19};
-    Curve{20};
-    Curve{21};
-    Curve{22};
-    Curve{23};
-    Curve{24};
-    Curve{25};
-    Curve{26};
-    Curve{27};
-    Curve{28};
-    Curve{29};
-    Curve{30};
-    Curve{31};
-    Curve{32};
-    Curve{33};
-    Curve{34};
-    Curve{35};
-    Curve{36};
+Extrude {0, 0, E} {
     Surface{1};
     Surface{2};
     Surface{3};
@@ -182,14 +146,26 @@ Extrude {0, 0, 0.1} {
     Recombine;
 }
 
-Physical Surface("front", 157) = {82, 58, 92};
-Physical Surface("back", 158) = {11, 1, 8};
-Physical Surface("inlet", 159) = {37, 42, 39};
-Physical Surface("outlet", 160) = {44, 48, 47};
-Physical Surface("wall_top", 161) = {98, 19, 41};
-Physical Surface("wall_base", 162) = {46, 22, 40};
-Physical Surface("plate_base", 163) = {27};
-Physical Surface("plate_top", 164) = {25};
-Physical Surface("plate_leading", 165) = {24};
-Physical Surface("plate_trailing", 166) = {26};
-Physical Volume("fluid", 167) = {8, 10, 2, 13, 11, 12, 3, 9, 6, 5, 4, 7};
+
+//+
+Physical Surface("front", 97) = {46, 22, 56, 52, 26, 49, 30, 62, 59};
+//+
+Physical Surface("back", 98) = {11, 1, 8, 10, 2, 13, 12, 3, 9};
+//+
+Physical Surface("wall_top", 99) = {60, 24, 51};
+//+
+Physical Surface("wall_base", 100) = {47, 27, 57};
+//+
+Physical Surface("inlet", 101) = {43};
+//+
+Physical Surface("outlet", 102) = {54};
+//+
+Physical Surface("plate_top", 103) = {38};
+//+
+Physical Surface("plate_base", 104) = {32};
+//+
+Physical Surface("plate_trailing", 105) = {36};
+//+
+Physical Surface("plate_leading", 106) = {41};
+//+
+Physical Volume("fluid", 107) = {8, 10, 9, 11, 13, 12, 3, 2, 6, 4, 1, 5, 7};
