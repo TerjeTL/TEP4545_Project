@@ -1,0 +1,422 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2206                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    arch        "LSB;label=32;scalar=64";
+    class       decomposedBlockData;
+    object      U;
+    data.format     ascii;
+    data.class      volVectorField;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+// processor0
+
+926
+(FoamFile
+{
+    version     2.0;
+    format      ascii;
+    arch        "LSB;label=32;scalar=64";
+    class       volVectorField;
+    location    "0";
+    object      U;
+}
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            fixedValue;
+        value           uniform (0.014776 0 0);
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    topWall
+    {
+        type            noSlip;
+    }
+    lowerWall
+    {
+        type            noSlip;
+    }
+    frontAndBack
+    {
+        type            empty;
+    }
+    procBoundary0to1
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+    procBoundary0to4
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+    procBoundary0to5
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+}
+)
+
+// processor1
+
+869
+(dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            fixedValue;
+        value           nonuniform List<vector> 0();
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    topWall
+    {
+        type            noSlip;
+    }
+    lowerWall
+    {
+        type            noSlip;
+    }
+    frontAndBack
+    {
+        type            empty;
+    }
+    procBoundary1to0
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+    procBoundary1to2
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+    procBoundary1to5
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+    procBoundary1to6
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+}
+)
+
+// processor2
+
+869
+(dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            fixedValue;
+        value           nonuniform List<vector> 0();
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    topWall
+    {
+        type            noSlip;
+    }
+    lowerWall
+    {
+        type            noSlip;
+    }
+    frontAndBack
+    {
+        type            empty;
+    }
+    procBoundary2to1
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+    procBoundary2to3
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+    procBoundary2to6
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+    procBoundary2to7
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+}
+)
+
+// processor3
+
+651
+(dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            fixedValue;
+        value           nonuniform List<vector> 0();
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    topWall
+    {
+        type            noSlip;
+    }
+    lowerWall
+    {
+        type            noSlip;
+    }
+    frontAndBack
+    {
+        type            empty;
+    }
+    procBoundary3to2
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+    procBoundary3to7
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+}
+)
+
+// processor4
+
+646
+(dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            fixedValue;
+        value           uniform (0.014776 0 0);
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    topWall
+    {
+        type            noSlip;
+    }
+    lowerWall
+    {
+        type            noSlip;
+    }
+    frontAndBack
+    {
+        type            empty;
+    }
+    procBoundary4to0
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+    procBoundary4to5
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+}
+)
+
+// processor5
+
+869
+(dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            fixedValue;
+        value           nonuniform List<vector> 0();
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    topWall
+    {
+        type            noSlip;
+    }
+    lowerWall
+    {
+        type            noSlip;
+    }
+    frontAndBack
+    {
+        type            empty;
+    }
+    procBoundary5to0
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+    procBoundary5to1
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+    procBoundary5to4
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+    procBoundary5to6
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+}
+)
+
+// processor6
+
+869
+(dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            fixedValue;
+        value           nonuniform List<vector> 0();
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    topWall
+    {
+        type            noSlip;
+    }
+    lowerWall
+    {
+        type            noSlip;
+    }
+    frontAndBack
+    {
+        type            empty;
+    }
+    procBoundary6to1
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+    procBoundary6to2
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+    procBoundary6to5
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+    procBoundary6to7
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+}
+)
+
+// processor7
+
+760
+(dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            fixedValue;
+        value           nonuniform List<vector> 0();
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    topWall
+    {
+        type            noSlip;
+    }
+    lowerWall
+    {
+        type            noSlip;
+    }
+    frontAndBack
+    {
+        type            empty;
+    }
+    procBoundary7to2
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+    procBoundary7to3
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+    procBoundary7to6
+    {
+        type            processor;
+        value           uniform (0 0 0);
+    }
+}
+)
