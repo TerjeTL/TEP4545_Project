@@ -1,0 +1,276 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2206                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+scale   1;
+
+// Setting up the extreme dimensions
+
+Re  1000; // Should be < 2000 according to Nakamura et al. (1991)
+xmax 10;//#calc "0.0575*$Re"; // Using formula for laminar entry length from wikipedia:  https://en.wikipedia.org/wiki/Entrance_length_(fluid_dynamics)#Calculating_hydrodynamic_entrance_length
+xmin 0.0;
+ymax 1.0; // keeping h = 1
+ymin 0;
+zmin #calc "-0.05*$ymax"; // needs to be ~0.5*ymax for 2D sims
+zmax #calc "0.05*$ymax"; // needs to be ~0.5*ymax for 2D sims
+
+Ycells 500; // Cells in grid resolution in height direction
+cellRatioXY #calc "$Ycells*ceil($xmax / $ymax)"; // Fixing cell ratio so cell aspect ratio is ~1
+
+// Plate dimensions
+LT_ratio 7.5; // Length-to-Thickness ratio
+/*
+From Nakamura et al (1991):
+		○ L/T < 3.2: Flow seperation at leading edge without reattachment
+			§ Gives a regular vortex street in wake
+		○ 3.2  < L/T < 7.6: Reattachment at trailing edge happens periodically.
+		○ 7.6 <L/T <= 16: Reattachment was permament, but seperation bubble grew and split randomly (turblence?)
+			§ No regular vortex street
+		○ L/T>16: Reattachment on plate, and seperation bubble diffused before reaching trailing edge. BL approached fully developed before trailing edge
+Regular vortex street that was not directly related to the formation of the leading edge separation bubbles.
+*/
+
+LE_pos_x_ratio 0.3; // Ratio of total channel length in x-direction where leading edge (LE) is found
+LE_pos_x #calc "$LE_pos_x_ratio*$xmax";
+
+Thickness_ratio 0.1; // Ratio of plate thickness to channel height in y-direction
+Thickness #calc "$Thickness_ratio*$ymax";
+
+ymax_plate #calc "0.5*$ymax + 0.5*$Thickness"; // Y-position of upper surface of plate
+ymin_plate #calc "0.5*$ymax - 0.5*$Thickness"; // Y-position of lower surface of plate
+
+TE_pos_x #calc "$LT_ratio*$Thickness + $LE_pos_x"; // X-position of trailing edge (TE).
+
+// Calculating distribution of cells between blocks
+/*
+
+Block-diagram
+
+ ->   ____________________________
+ ->   | A  | B     |   C         |
+      |____|_______|_____________|
+ U    | D  | PLATE |   E         |
+      |____|_______|_____________| 
+ ->   | F  | G     |   H         |
+ ->   |____|_______|_____________| 
+
+*/
+
+// Block A
+blockA_Xcells #calc "ceil($LE_pos_x_ratio*$cellRatioXY)";
+blockA_Ycells #calc "ceil(0.5*$Ycells*($ymax - $ymax *$Thickness_ratio))";
+
+// Block B
+blockB_Xcells #calc "ceil($cellRatioXY*(($TE_pos_x - $LE_pos_x)/$xmax))";
+blockB_Ycells $blockA_Ycells;
+
+// Block C
+blockC_Xcells #calc "ceil($cellRatioXY*(($xmax - $TE_pos_x)/$xmax))";
+blockC_Ycells $blockA_Ycells;
+
+// Block D
+blockD_Xcells $blockA_Xcells;
+blockD_Ycells #calc "ceil($Thickness_ratio * $Ycells)";
+
+// Block E
+blockE_Xcells $blockC_Xcells;
+blockE_Ycells $blockD_Ycells;
+
+// Block F
+blockF_Xcells $blockD_Xcells;
+blockF_Ycells $blockA_Ycells;
+
+// Block G
+blockG_Xcells $blockB_Xcells;
+blockG_Ycells $blockF_Ycells;
+
+// Block H
+blockH_Xcells $blockC_Xcells;
+blockH_Ycells $blockF_Ycells;
+
+
+vertices 
+(
+    // Bouding vertices
+    ($xmin $ymin $zmin) // 0 | Origin
+    ($xmax $ymin $zmin) // 1
+    ($xmax $ymax $zmin) // 2
+    ($xmin $ymax $zmin) // 3
+
+    // Corresponding vertices in depth plane
+    ($xmin $ymin $zmax) // 4 | 0
+    ($xmax $ymin $zmax) // 5 | 1
+    ($xmax $ymax $zmax) // 6 | 2
+    ($xmin $ymax $zmax) // 7 | 3
+
+    // Plate vertices
+    ($LE_pos_x $ymax_plate $zmin) // 8
+    ($TE_pos_x $ymax_plate $zmin) // 9
+    ($TE_pos_x $ymin_plate $zmin) // 10
+    ($LE_pos_x $ymin_plate $zmin) // 11
+
+    // Corresponding vertices in depth plane
+    ($LE_pos_x $ymax_plate $zmax) // 12 | 8
+    ($TE_pos_x $ymax_plate $zmax) // 13 | 9
+    ($TE_pos_x $ymin_plate $zmax) // 14 | 10
+    ($LE_pos_x $ymin_plate $zmax) // 15 | 11
+
+    // Misc. vertices
+    ($xmin $ymin_plate $zmin) // 16
+    ($LE_pos_x $ymin $zmin) // 17
+    ($TE_pos_x $ymin $zmin) // 18
+    ($xmax $ymin_plate $zmin) // 19
+    ($xmax $ymax_plate $zmin) // 20
+    ($TE_pos_x $ymax $zmin) // 21
+    ($LE_pos_x $ymax $zmin) // 22
+    ($xmin $ymax_plate $zmin) // 23
+
+    // Corresponding vertices in depth plane
+    ($xmin $ymin_plate $zmax) // 24 | 16
+    ($LE_pos_x $ymin $zmax) // 25 | 17
+    ($TE_pos_x $ymin $zmax) // 26 | 18
+    ($xmax $ymin_plate $zmax) // 27 | 19
+    ($xmax $ymax_plate $zmax) // 28 | 20
+    ($TE_pos_x $ymax $zmax) // 29 | 21
+    ($LE_pos_x $ymax $zmax) // 30 | 22
+    ($xmin $ymax_plate $zmax) // 31 | 23    
+
+);
+
+
+blocks
+(
+
+    hex (23 8 22 3 31 12 30 7) ($blockA_Xcells $blockA_Ycells 1) simpleGrading (1 1 1) // A
+    hex (8 9 21 22 12 13 29 30) ($blockB_Xcells $blockB_Ycells 1) simpleGrading (1 1 1) // B
+    hex (9 20 2 21 13 28 6 29) ($blockC_Xcells $blockC_Ycells 1) simpleGrading (1 1 1) // C
+    hex (16 11 8 23 24 15 12 31) ($blockD_Xcells $blockD_Ycells 1) simpleGrading (1 1 1) // D
+    hex (10 19 20 9 14 27 28 13) ($blockE_Xcells $blockE_Ycells 1) simpleGrading (1 1 1) // E
+    hex (0 17 11 16 4 25 15 24) ($blockF_Xcells $blockF_Ycells 1) simpleGrading (1 1 1) // F
+    hex (17 18 10 11 25 26 14 15) ($blockG_Xcells $blockG_Ycells 1) simpleGrading (1 1 1) // G
+    hex (18 1 19 10 26 5 27 14) ($blockH_Xcells $blockH_Ycells 1) simpleGrading (1 1 1) // H
+
+);
+
+edges
+(
+);
+
+boundary
+(
+    inlet
+    {
+        type patch;
+        faces
+        (
+            (0 4 24 16)
+            (16 24 23 31)
+            (23 31 7 3)
+            
+        );
+    }
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (1 19 27 5) // H
+            (19 20 28 27) // E
+            (20 2 6 28) // C
+        );
+    }
+
+    topWall
+    {
+        type wall;
+        faces
+        (
+            (3 7 30 22)
+            (22 30 29 21)
+            (21 29 6 2)
+        );
+    }
+    lowerWall
+    {
+        type wall;
+        faces
+        (
+            (4 0 17 25)
+            (17 18 26 25)
+            (18 1 5 26)
+        );
+    }
+    leadingEdge
+    {
+        type wall;
+        faces
+        (
+            (11 8 12 15)
+        );
+    }
+    trailingEdge
+    {
+        type wall;
+        faces
+        (
+            (9 10 14 13)
+        );
+    }
+    upperSurface
+    {
+        type wall;
+        faces
+        (
+            (8 9 13 12)
+        );
+    }
+    lowerSurface
+    {
+        type wall;
+        faces
+        (
+            (10 11 15 14) // G
+        );
+    }
+    frontAndBack
+    {
+        type empty;
+        faces
+        (
+            // zmin
+            (23 3 22 8) // A
+            (8 22 21 9) // B
+            (2 20 9 21) // C
+            (16 23 8 11) // D
+            (10 9 20 19) // E
+            (0 16 11 17) // F
+            (17 11 10 18) // G
+            (18 10 19 1) // H
+
+            // zmax
+            (7 31 12 30) // A
+            (30 12 13 29) // B
+            (29 13 28 6) // C
+            (31 24 15 12) // D
+            (13 14 27 28) // E
+            (24 4 25 15) // F
+            (15 25 26 14) // G
+            (14 26 5 27) // H
+        );
+    }
+);
+
+
+// ************************************************************************* //
