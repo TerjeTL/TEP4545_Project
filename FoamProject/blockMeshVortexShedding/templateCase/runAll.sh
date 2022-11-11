@@ -7,7 +7,7 @@ num_cpu=6
 clean_run=true
 num_lt=5.0
 num_cell_density="1e3"
-num_dt=0.0001
+num_dt="3e-4"
 num_wall_distance=2.0
 
 ################

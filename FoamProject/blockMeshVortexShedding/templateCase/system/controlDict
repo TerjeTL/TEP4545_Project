@@ -22,13 +22,13 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         30;
+endTime         0.2;
 
-deltaT          0.0004;
+deltaT	0.0003;
 
 writeControl    adjustableRunTime;
 
-writeInterval   0.017; 
+writeInterval   0.1; 
 
 purgeWrite      1000;
 
@@ -50,40 +50,60 @@ maxCo           0.8;
 
 maxDi           0.7;
 
-libs            ( "libOpenFOAM.so" "libfieldFunctionObjects.so" );
-
 functions
 {
     #includeFunc solverInfo;
-    cuttingPlane
-    {
-        type            surfaces;
-        libs            ( "libsampling.so" );
-        writeControl    runTime;
-        writeInterval   1e-4;
-        surfaceFormat   vtk;
-        fields          (U p);
-        interpolationScheme cellPoint;
-        surfaces        
-	( 	
-		zNormal 
-		{ 
-			type cuttingPlane ; 
-			planeType pointAndNormal ; 
-			pointAndNormalDict 
-			{ 
-				point ( 0 0 0 ) ; 
-				normal ( 0 0 1 ) ; 
-			} 
-		interpolate true ; 
-		}
-	);
-    }
-}
 
-OptimisationSwitches
-{
-	fileHandler collated;
-}
+    
+    forceCoeffs_object
+    {
+	    // rhoInf - reference density
+	    // CofR - Centre of rotation
+	    // dragDir - Direction of drag coefficient
+	    // liftDir - Direction of lift coefficient
+	    // pitchAxis - Pitching moment axis
+	    // magUinf - free stream velocity magnitude
+	    // lRef - reference length
+	    // Aref - reference area
+	
+      type forceCoeffs;
+	    libs ("libforces.so");
+	    
+      patches
+      (
+        leadingEdge
+        upperSurface
+        lowerSurface
+        trailingEdge
+      );
+	    
+      pName p;
+	    Uname U;
+	    rho rhoInf;
+	    rhoInf 1.0;     // incompressible
+
+      // Reference pressure
+      pRef 0;
+
+    	//// Dump to file
+	    log true;
+
+	    CofR (0.0 0 0);
+	    liftDir (0 1 0);
+	    dragDir (1 0 0);
+	    pitchAxis (0 0 1);
+	    magUInf 1.4777;
+	    lRef 1.0;         // reference lenght for moments
+	    Aref 1.0;         // reference area 1 for 2d
+
+      writeControl   adjustableRunTime;
+      writeInterval  0.1;
+    }
+};
+
+//OptimisationSwitches
+//{
+//	fileHandler collated;
+//}
 
 // ************************************************************************* //
