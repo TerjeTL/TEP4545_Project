@@ -55,13 +55,13 @@ set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
 
 if [ "$clean_run" = true ]; then
   # Remove previous results
-  foamListTimes -rm
+  openfoam2206 foamListTimes -rm
 
   # Generate mesh
-  blockMesh
+  openfoam2206 blockMesh
 
   # Check mesh
-  checkMesh
+  openfoam2206 checkMesh
   if [ "$no_prompt" = false ]; then
 
     read -r -p "Continue? [y/N] " response
@@ -78,9 +78,9 @@ if [ "$clean_run" = true ]; then
   sed -i "s/^numberOfSubdomains.*$/numberOfSubdomains\t${num_cpu};/" ./system/decomposeParDict
   sed -i "s/^\tn.*$/\tn (${num_cpu_x} 2 1);/" ./system/decomposeParDict
 
-  decomposePar -force
+  openfoam2206 decomposePar -force
 fi
 
 
 # Run icoFoam in parallel
-mpirun -np "$num_cpu" icoFoam -parallel
+openfoam2206 mpirun --allow-run-as-root -np "$num_cpu" icoFoam -parallel

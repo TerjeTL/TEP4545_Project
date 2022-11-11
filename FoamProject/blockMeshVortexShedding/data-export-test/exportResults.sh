@@ -1,7 +1,7 @@
 #!/bin/bash
 cd "${0%/*}"
 
-let file_name="force_coeffs_default.csv"
+let file_name="force_coeffs_default"
 
 #### ARGUMENT HANDLING ####
 
