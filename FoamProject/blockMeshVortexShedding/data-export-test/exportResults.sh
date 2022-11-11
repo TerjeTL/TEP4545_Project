@@ -35,10 +35,10 @@ set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
 
 
 # Uncomment header and save as csv
-sed -e 's/# T/T/g' ./postProcessing/forceCoeffs_object/0/coefficient.dat > ../../../Data/${file_name}
+sed -e 's/# T/T/g' ./postProcessing/forceCoeffs_object/0/coefficient.dat > ../../../Data/${file_name}.csv
 
 # Change dir
 cd ../../../Data/
 
 # Reformat csv with format: comment=#, sep="\t"
-sed -i -e 's/ //g' ${file_name}
+sed -i -e 's/ //g' ${file_name}.csv
