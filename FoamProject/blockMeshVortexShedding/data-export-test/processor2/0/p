@@ -29,7 +29,7 @@ boundaryField
     outlet
     {
         type            fixedValue;
-        value           uniform 0;
+        value           nonuniform List<scalar> 0();
     }
     topWall
     {
@@ -64,7 +64,12 @@ boundaryField
         type            processor;
         value           uniform 0;
     }
-    procBoundary2to5
+    procBoundary2to3
+    {
+        type            processor;
+        value           uniform 0;
+    }
+    procBoundary2to6
     {
         type            processor;
         value           uniform 0;

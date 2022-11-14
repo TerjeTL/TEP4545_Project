@@ -25,7 +25,7 @@ boundaryField
     inlet
     {
         type            fixedValue;
-        value           nonuniform List<vector> 0();
+        value           uniform (1.4776 0 0);
     }
     outlet
     {
@@ -60,16 +60,6 @@ boundaryField
         type            empty;
     }
     procBoundary4to0
-    {
-        type            processor;
-        value           uniform (1.4776 0 0);
-    }
-    procBoundary4to1
-    {
-        type            processor;
-        value           uniform (1.4776 0 0);
-    }
-    procBoundary4to3
     {
         type            processor;
         value           uniform (1.4776 0 0);

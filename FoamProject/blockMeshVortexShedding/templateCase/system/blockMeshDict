@@ -19,18 +19,24 @@ scale   1;
 // Setting up the extreme dimensions
 
 Re  1000; // Should be < 2000 according to Nakamura et al. (1991)
-xmax 10;//#calc "0.0575*$Re"; // Using formula for laminar entry length from wikipedia:  https://en.wikipedia.org/wiki/Entrance_length_(fluid_dynamics)#Calculating_hydrodynamic_entrance_length
+xmax 0.5;//#calc "0.0575*$Re"; // Using formula for laminar entry length from wikipedia:  https://en.wikipedia.org/wiki/Entrance_length_(fluid_dynamics)#Calculating_hydrodynamic_entrance_length
 xmin 0.0;
-ymax 1.0; // keeping h = 1
+
+DistancePlateWall 2.0;
+Thickness 0.01; // Sat to 1cm to keep Re ~1000
+Thickness_ratio #calc "1/(2*$DistancePlateWall +1)"; // Ratio of plate thickness to total channel height in y-direction. Keep <1
+
+ymax #calc "$Thickness / $Thickness_ratio "; //1.0; // keeping h = 1
 ymin 0;
 zmin #calc "-0.05*$ymax"; // needs to be ~0.5*ymax for 2D sims
 zmax #calc "0.05*$ymax"; // needs to be ~0.5*ymax for 2D sims
 
-Ycells 500; // Cells in grid resolution in height direction
+CellRes 1000.0;
+Ycells #calc "$CellRes*$ymax "; // Cells in grid resolution in height direction
 cellRatioXY #calc "$Ycells*ceil($xmax / $ymax)"; // Fixing cell ratio so cell aspect ratio is ~1
 
 // Plate dimensions
-LT_ratio 7.5; // Length-to-Thickness ratio
+LT_ratio 8.0;
 /*
 From Nakamura et al (1991):
 		○ L/T < 3.2: Flow seperation at leading edge without reattachment
@@ -42,11 +48,8 @@ From Nakamura et al (1991):
 Regular vortex street that was not directly related to the formation of the leading edge separation bubbles.
 */
 
-LE_pos_x_ratio 0.3; // Ratio of total channel length in x-direction where leading edge (LE) is found
+LE_pos_x_ratio 0.2; // Ratio of total channel length in x-direction where leading edge (LE) is found
 LE_pos_x #calc "$LE_pos_x_ratio*$xmax";
-
-Thickness_ratio 0.1; // Ratio of plate thickness to channel height in y-direction
-Thickness #calc "$Thickness_ratio*$ymax";
 
 ymax_plate #calc "0.5*$ymax + 0.5*$Thickness"; // Y-position of upper surface of plate
 ymin_plate #calc "0.5*$ymax - 0.5*$Thickness"; // Y-position of lower surface of plate
@@ -70,7 +73,7 @@ Block-diagram
 
 // Block A
 blockA_Xcells #calc "ceil($LE_pos_x_ratio*$cellRatioXY)";
-blockA_Ycells #calc "ceil(0.5*$Ycells*($ymax - $ymax *$Thickness_ratio))";
+blockA_Ycells #calc "ceil($CellRes *($ymin_plate - $ymin))";
 
 // Block B
 blockB_Xcells #calc "ceil($cellRatioXY*(($TE_pos_x - $LE_pos_x)/$xmax))";

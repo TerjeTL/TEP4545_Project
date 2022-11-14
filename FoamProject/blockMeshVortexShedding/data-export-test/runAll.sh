@@ -5,6 +5,10 @@ cd "${0%/*}"
 
 num_cpu=6
 clean_run=true
+num_lt=5.0
+num_cell_density="1e3"
+num_dt=0.0001
+num_wall_distance=2.0
 
 ################
 
@@ -28,6 +32,26 @@ while [[ $# -gt 0 ]]; do
       ;;
     -p|--processors)
       num_cpu=$2
+      shift # past argument
+      shift # past value
+      ;;
+    -dt|--time_step)
+      num_dt=$2
+      shift # past argument
+      shift # past value
+      ;;
+    -lt)
+      num_lt=$2
+      shift
+      shift
+      ;;
+    -dh|--cell_density)
+      num_cell_density=$2
+      shift
+      shift
+      ;;
+    -wh|--wall_distance)
+      num_wall_distance=$2
       shift # past argument
       shift # past value
       ;;
@@ -55,13 +79,18 @@ set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
 
 if [ "$clean_run" = true ]; then
   # Remove previous results
-  foamListTimes -rm
+  openfoam2206 foamListTimes -rm
+  
+  # Change parameters
+  sed -i "s/^LT_ratio.*$/LT_ratio ${num_lt};/" ./system/blockMeshDict
+  sed -i "s/^CellRes.*$/CellRes ${num_cell_density};/" ./system/blockMeshDict
+  sed -i "s/^DistancePlateWall.*$/DistancePlateWall ${num_wall_distance};/" ./system/blockMeshDict
 
   # Generate mesh
-  blockMesh
+  openfoam2206 blockMesh
 
   # Check mesh
-  checkMesh
+  openfoam2206 checkMesh
   if [ "$no_prompt" = false ]; then
 
     read -r -p "Continue? [y/N] " response
@@ -78,9 +107,11 @@ if [ "$clean_run" = true ]; then
   sed -i "s/^numberOfSubdomains.*$/numberOfSubdomains\t${num_cpu};/" ./system/decomposeParDict
   sed -i "s/^\tn.*$/\tn (${num_cpu_x} 2 1);/" ./system/decomposeParDict
 
-  decomposePar -force
+  openfoam2206 decomposePar -force
+
+  sed -i "s/^deltaT.*$/deltaT\t${num_dt};/" ./system/controlDict
 fi
 
 
 # Run icoFoam in parallel
-mpirun -np "$num_cpu" icoFoam -parallel
+openfoam2206 mpirun --allow-run-as-root -np "$num_cpu" icoFoam -parallel
