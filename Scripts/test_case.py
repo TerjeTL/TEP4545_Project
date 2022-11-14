@@ -9,7 +9,7 @@ CASE_DIR = "./../FoamProject/blockMeshVortexShedding/templateCase/"
 
 ## SET-UP ##
 
-NUM_CPU = 8
+NUM_CPU = 6
 
 ############
 
@@ -30,14 +30,14 @@ class Case:
             "-dt", str(self.time_step), "-lt", str(self.length_to_thickness_ratio),
             "-dh", str(self.cell_density) ])
 
-        rc += call([CASE_DIR + "exportResults.sh", "-n", self.case_name])
+        rc += call([CASE_DIR + "exportResults.sh", "-a", "-f", "export_data", "-d", self.case_name])
 
         return rc
 
 def main():
     lt_list = np.linspace(3, 8, 6)
 
-    for i in range(len(lt_list)):
+    for i in range(1):
         case_name = "test_case_" + str(lt_list[i])
         test_case = Case(case_name, 3e-4, lt_list[i], 1e3, 2.0)
         test_case.run()
