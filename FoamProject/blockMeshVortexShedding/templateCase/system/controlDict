@@ -22,7 +22,7 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         0.2;
+endTime         50.0;
 
 deltaT	0.0003;
 
@@ -30,7 +30,7 @@ writeControl    adjustableRunTime;
 
 writeInterval   0.1; 
 
-purgeWrite      1000;
+purgeWrite      20;
 
 writeFormat     ascii;
 
@@ -97,7 +97,7 @@ functions
 	    Aref 1.0;         // reference area 1 for 2d
 
       writeControl   adjustableRunTime;
-      writeInterval  0.1;
+      writeInterval  0.01;
     }
 };
 
