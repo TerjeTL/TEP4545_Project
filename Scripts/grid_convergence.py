@@ -5,9 +5,15 @@ import matplotlib.pyplot as plt
 from scipy.optimize import fsolve
 from glob import glob
 
+#### CONFIG ####
+
 # Use glob to catch all wanted case folders as a list (note: only folders to be included in the grid refinement)
 # i.e. [grid_case_1, grid_case_2, grid_case_3]
-dirs = glob("Data/grid*/")
+dirs = glob("./Data/grid*/")
+output_path = "./Data/GCI.csv"
+
+################
+
 
 # Just get the mean value of the Cd after a certain startup time (check where the solutions stabilize)
 def calculate_mean_cd(dataframe, start_time):
