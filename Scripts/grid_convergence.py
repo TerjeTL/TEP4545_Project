@@ -99,7 +99,7 @@ results["GCI_fine"] = [GCI_f_21, GCI_f_32, np.nan]
 pd.set_option("display.precision", 8)
 print(results)
 
-results.to_csv("./Data/GCI.csv")
+results.to_csv(output_path)
 
 # uncomment for plotting
 
