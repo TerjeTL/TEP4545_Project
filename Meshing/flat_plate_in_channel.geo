@@ -1,13 +1,14 @@
 // Gmsh project created on Thu Oct 13 12:35:15 2022
 SetFactory("OpenCASCADE");
 
-H = 1.0;
-L = 12.0;
-L2 = 10.0;
-b = 0.1;
+S = 0.001;
+H = S*1.0;
+L = S*12.0;
+L2 = S*10.0;
+b = S*0.1;
 
-h = 0.1;
-l = 3.0;
+h = S*0.1;
+l = S*3.0;
 
 bi = 10;
 bj = 80;
