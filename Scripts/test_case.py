@@ -36,11 +36,13 @@ class Case:
 
 def main():
     lt_list = np.linspace(3, 8, 6)
+    w_list = np.linspace(1, 3, 3)
 
-    for i in range(1):
-        case_name = "test_case_" + str(lt_list[i])
-        test_case = Case(case_name, 3e-4, lt_list[i], 1e3, 2.0)
-        test_case.run()
+    for j in range(len(w_list)):
+        for i in range(len(lt_list)):
+            case_name = "WD"+ str(w_list[j]) + "LT" + str(lt_list[i])
+            test_case = Case(case_name, 3e-4, lt_list[i], 1e3, w_list[j])
+            test_case.run()
 
 if __name__ == '__main__':
     main()
