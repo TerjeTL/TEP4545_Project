@@ -11,7 +11,7 @@ from glob import glob
 # i.e. [grid_case_1, grid_case_2, grid_case_3]
 dirs = glob("./Data/grid*/")
 output_path = "./Data/GCI.csv"
-
+start_time = 2.0 #seconds from simulation start
 ################
 
 
@@ -19,7 +19,7 @@ output_path = "./Data/GCI.csv"
 def calculate_mean_cd(dataframe, start_time):
     
     df = dataframe.loc[start_time:].copy()
-    print(df)
+    #print(df)
 
     return df["Cd"].mean()
 
@@ -30,29 +30,30 @@ results = pd.DataFrame(index=dirs, columns=["volume", "N", "h", "r", "Cd_mean"])
 for index, row in results.iterrows():
     with open(index + "num_cells.dat", 'r') as f:
         num_cells = float(f.read())
-        print(num_cells)
+        #print(num_cells)
 
     with open(index + "total_volume.dat", 'r') as f:
         volume = float(f.read())
-        print(volume)
+        #print(volume)
 
     results.loc[index, 'volume'] = volume
     results.loc[index, 'N'] = num_cells
 
 # cell size
-results["h"] = (results["volume"]/results["N"])**(1./3.)
+results["h"] = (results["volume"]/results["N"])**(1./2.)
 
 # Sort the table based on cell size
 results = results.sort_values('h')
 
 # Refinement factor
-results["r"] = results.iloc[:, 2].shift(-1)/results.iloc[:, 2]
+#results["r"] = results.iloc[:, 2].shift(-1)/results.iloc[:, 2] #per the document
+results["r"] = (results.iloc[:, 1]/results.iloc[:, 1].shift(-1))**(1./2.)
 
 for index, row in results.iterrows():
     dft = pd.read_csv(index + "export_data.csv", sep="\t", comment="#", index_col=0)
     
     ### CAUTION: Note the start time ###
-    cd_mean = calculate_mean_cd(dft, 2.0)
+    cd_mean = calculate_mean_cd(dft, start_time)
 
     results.loc[index, 'Cd_mean'] = cd_mean
 
@@ -60,6 +61,9 @@ results["epsilon"] = results.loc[:, "Cd_mean"].shift(-1) - results.loc[:, "Cd_me
 
 e_21 = results.iloc[0, 5]
 e_32 = results.iloc[1, 5]
+print("e_21: ", e_21)
+print("e_32: ", e_32) 
+
 r_21 = results.iloc[0, 3]
 r_32 = results.iloc[1, 3]
 
@@ -71,9 +75,10 @@ def eqn(p):
     return 1.0/np.log(r_21) * np.abs(np.log(np.abs(e_32/e_21))
         + np.log((r_21**p - s)/(r_32**p - s))) - p
 
-p = fsolve(eqn, 1.0)[0]
-results["p"] = s
-print("Estimated order: ", p)
+p_solv = fsolve(eqn, 1.0)
+p = p_solv[0]
+results["p"] = p
+print("Estimated order: ", p_solv)
 
 phi_1 = results.iloc[0, 4]
 phi_2 = results.iloc[1, 4]
