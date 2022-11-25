@@ -78,8 +78,9 @@ set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
 #cp ./../../../../Meshing/flat_plate_in_channel.msh .
 
 if [ "$clean_run" = true ]; then
-  # Remove previous results
+  # Remove previous results FOOKIN LIES
   openfoam2206 foamListTimes -rm
+  rm -rf postProcessing
   
   # Change parameters
   sed -i "s/^LT_ratio.*$/LT_ratio ${num_lt};/" ./system/blockMeshDict
