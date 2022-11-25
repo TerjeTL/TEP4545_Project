@@ -87,7 +87,8 @@ if RUN:
     x = X[:,0]
     y = Y[0,:]
 
-    def run(init_x, init_y,xxA,xxB,yyA,yyB, dt0=3e-2, max_delta = T/2.0, max_k = 10000, c0=1.04):
+
+    def run(init_x,init_y,xxA,xxB,yyA,yyB,dt0=3e-2,max_delta=T/2.0,max_k=10000,c0=1.04):
         M = len(init_x)
         for m in range(M):
             x0 = init_x[m]
@@ -202,6 +203,8 @@ if RUN:
     ax.fill(wallB_x,wallB_y,fc=plate_fc,ec=plate_hc,lw=plate_h_lw,hatch='///',zorder=100)
     ax.fill(wallB_x,wallB_y,fill=False,ec=plate_ec,lw=plate_lw,zorder=200)
 
+    ax.set(xlim=xlim, ylim=ylim)
+    ax.set(aspect='equal')
     
     dxlim = xlim[1]-xlim[0]
     dylim = ylim[1]-ylim[0]
