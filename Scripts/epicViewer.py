@@ -1,7 +1,9 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 
-df = pd.read_csv("./../data/some_other_file.csv", sep="\t", comment="#")
+case = 'WD1.0LT5.0'
+filename = 'Data/{case}/export_data.csv'.format(case=case)
+df = pd.read_csv(filename, sep="\t", comment="#")
 
 print(df)
 
