@@ -17,6 +17,10 @@ if [ "$no_prompt" = false ]; then
     else
       exit 0
   fi
+  else
+      # Remove previous results
+      foamListTimes -rm
+      rm log.foamTimes
 fi
 
 
@@ -29,6 +33,9 @@ if [ "$no_prompt" = false ]; then
     else
       exit 0
   fi
+    else
+      # Remove previous results
+      rm -r ./postProcessing
 fi
 
 
@@ -41,4 +48,7 @@ if [ "$no_prompt" = false ]; then
     else
       exit 0
   fi
+  else
+      # Remove previous results
+      rm -r ./processor*
 fi

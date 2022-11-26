@@ -1,7 +1,7 @@
 #!/bin/bash
 cd "${0%/*}"
 
-#### CONFIG ####
+#### DEFAULT CONFIG ####
 
 num_cpu=6
 clean_run=true
@@ -10,7 +10,7 @@ num_cell_density="1e3"
 num_dt="3e-4"
 num_wall_distance=2.0
 
-################
+########################
 
 
 #### DEFS ######
@@ -80,7 +80,7 @@ set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
 if [ "$clean_run" = true ]; then
   # Remove previous results FOOKIN LIES
   openfoam2206 foamListTimes -rm
-  rm -rf postProcessing
+  rm -r ./postProcessing
   
   # Change parameters
   sed -i "s/^LT_ratio.*$/LT_ratio ${num_lt};/" ./system/blockMeshDict

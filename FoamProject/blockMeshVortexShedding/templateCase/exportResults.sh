@@ -44,7 +44,7 @@ set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
 
 ###########################
 # Create directory
-mkdir ../../../Data/${dir_name}
+mkdir -p ../../../Data/${dir_name}
 
 checkMesh > ../../../Data/${dir_name}/mesh.txt
 grep -oP 'cells:\s*\K\d+' ../../../Data/${dir_name}/mesh.txt > ../../../Data/${dir_name}/num_cells.dat
@@ -57,7 +57,7 @@ if [ "$export_fields" = true ]; then
 fi
 
 # Uncomment header and save as csv
-sed -e 's/# T/T/g' ./postProcessing/forceCoeffs_object/0/coefficient_0.dat > ../../../Data/${dir_name}/${file_name}.csv
+sed -e 's/# T/T/g' ./postProcessing/forceCoeffs_object/0/coefficient.dat > ../../../Data/${dir_name}/${file_name}.csv
 
 # Change dir
 cd ../../../Data/${dir_name}

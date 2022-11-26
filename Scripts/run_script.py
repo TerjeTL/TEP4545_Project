@@ -37,7 +37,7 @@ class Case:
 def main():
     lt_list = np.linspace(1, 8, 6)
 
-    grid_scale = 0.8
+    grid_scale = 1.0
 
     for i in range(3):
         case_name = "grid_level_" + str(3-i)
