@@ -46,7 +46,9 @@ def generate(case):
     U = np.nan*(X)
     V = np.nan*(X)
     P = np.nan*(X)
+    print(case)
     for j in range(J):
+        print('.',end='')
         for i in range(I):
             x0,y0 = X[i,j], Y[i,j]
             dx,dy = x0-data[:,0], y0-data[:,1]
@@ -54,7 +56,7 @@ def generate(case):
             idx = np.argmin(r2)
             row = data[idx,:]
             U[i,j],V[i,j],P[i,j] = row[3],row[4],row[12]
-
+    print()
     np.save('Data/{case}/X'.format(case=case), X)
     np.save('Data/{case}/Y'.format(case=case), Y)
     np.save('Data/{case}/U'.format(case=case), U)
@@ -268,6 +270,9 @@ def run2(case):
 
     fig.savefig('fig1.svg',format='svg',dpi=1200)
 
-for case in cases[0:5]:
-    run(case)
-plt.show()
+#for case in cases[0:5]:
+#    run(case)
+#plt.show()
+case='WD1.0LT5.0'
+generate(case)
+run2(case)

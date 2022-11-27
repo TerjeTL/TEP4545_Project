@@ -22,7 +22,7 @@ Re  1000; // Should be < 2000 according to Nakamura et al. (1991)
 xmax 0.5;//#calc "0.0575*$Re"; // Using formula for laminar entry length from wikipedia:  https://en.wikipedia.org/wiki/Entrance_length_(fluid_dynamics)#Calculating_hydrodynamic_entrance_length
 xmin 0.0;
 
-DistancePlateWall 1.0;
+DistancePlateWall 2.0;
 Thickness 0.01; // Sat to 1cm to keep Re ~1000
 Thickness_ratio #calc "1/(2*$DistancePlateWall +1)"; // Ratio of plate thickness to total channel height in y-direction. Keep <1
 
