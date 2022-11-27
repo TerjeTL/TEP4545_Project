@@ -43,17 +43,18 @@ for case in cases:
     sampling_freq = time[1]-time[0]
     duration = time[-1]-time[0]
 
-    Cd_f = abs(scipy.fft.fft(Cd))[1:N//2]
+    Cl_f = abs(scipy.fft.fft(Cl))[1:N//2]
     freq = scipy.fft.fftfreq(N,sampling_freq)[1:N//2]
 
 
-    peak_idx = np.argmax(Cd_f)
+    peak_idx = np.argmax(Cl_f)
     shedding_freq = freq[peak_idx]
 
     strouhal_num = shedding_freq*T/u0
 
     cases[case]['shedding_freq'] = shedding_freq
     cases[case]['strouhal_num'] = strouhal_num
+    print(case, strouhal_num)
 
 for i,case in enumerate(cases):
     plt.plot([i],[cases[case]['strouhal_num']],'x',label=case)

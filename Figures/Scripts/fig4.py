@@ -1,28 +1,27 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 
 def d(a):
     return a[1:]-a[:-1]
 
 cases = [
-    'WD1.0LT3.0',
-    'WD1.0LT4.0',
     'WD1.0LT5.0',
     'WD1.0LT6.0',
-    'WD1.0LT7.0',
+#   'WD1.0LT7.0',
     'WD1.0LT8.0',
-    'WD2.0LT3.0',
-    'WD2.0LT4.0',
+#   'WD2.0LT3.0',
+#   'WD2.0LT4.0',
     'WD2.0LT5.0',
-    'WD2.0LT6.0',
-    'WD2.0LT7.0',
+#   'WD2.0LT6.0',
+#   'WD2.0LT7.0',
     'WD2.0LT8.0',
-    'WD3.0LT3.0',
-    'WD3.0LT4.0',
+#   'WD3.0LT3.0',
+#   'WD3.0LT4.0',
     'WD3.0LT5.0',
     'WD3.0LT6.0',
-    'WD3.0LT7.0',
+#   'WD3.0LT7.0',
     'WD3.0LT8.0',
 ]
 
@@ -112,7 +111,7 @@ def run(case):
     y = (Y[i,jt:jT]-yt)/(yT-yt)
     plt.plot(u,y, '-x')
 
-def run3(x,y,U,V,UV_mag,init_x,init_y,dt0=3e-2,max_delta=1.0,max_k=10000,c0=1.57):
+def streamplot(x,y,U,V,UV_mag,init_x,init_y,dt0=3e-2,max_delta=1.0,max_k=10000,c0=1.57):
     M = len(init_x)
     xxA,xxB,yyA,yyB = [],[],[],[]
     for m in range(M):
@@ -179,7 +178,7 @@ def run3(x,y,U,V,UV_mag,init_x,init_y,dt0=3e-2,max_delta=1.0,max_k=10000,c0=1.57
     
     return xxA,xxB,yyA,yyB
 
-def run2(case):
+def plot_streamplot(case):
     
     T = 1.0
     fw = float(case[2:5])
@@ -196,8 +195,8 @@ def run2(case):
     yB = yb - w
     H = T+2.0*w
 
-    xlim = [xLE-0.5*T, xTE+4*T]
-    ylim = [yb-0.5*T, yt+0.5*T]
+    xlim = [xLE-0.5*T, xLE+0.6*L]
+    ylim = [yb-0.6*T, 0.5*(yt+yb)]
 
     color_c=(1.0, 0.0, 0.0)
     color_nc=(0.8, 0.8, 0.8)
@@ -232,14 +231,12 @@ def run2(case):
 
 
 
-    M = 2000
+    M = 1000
     init_x=xlim[0]+(xlim[1]-xlim[0])*(np.random.rand((M)))
     init_y=ylim[0]+(ylim[1]-ylim[0])*(np.random.rand((M)))
 
     
-    xxA,xxB,yyA,yyB = run3(x,y,U,V,UV_mag,init_x,init_y,max_delta=4.0*T,c0=np.pi/np.sqrt(2))
-
-
+    xxA,xxB,yyA,yyB = streamplot(x,y,U,V,UV_mag,init_x,init_y,max_delta=4.0*T,c0=np.pi/np.sqrt(2))
 
     fig,ax = plt.subplots(1,1)
     
@@ -268,12 +265,114 @@ def run2(case):
     ax.set_axis_off()
     
 
-    fig.savefig('fig1.svg',format='svg',dpi=1200)
+    fig.savefig('Figures/Figures/Stream_full/'+case+'_bound.svg',format='svg',dpi=1200)
 
+
+def plot_quantity(case):
+    T = 1.0
+    fw = float(case[2:5])
+    fL = float(case[7:10])
+    w = T*fw
+    L = T*fL
+    xmin = 0.0
+    xmax = 50.0*T
+    xLE = 0.2*xmax
+    xTE = xLE+L
+    yt = 0.5*T
+    yb = -0.5*T
+    yT = yt + w
+    yB = yb - w
+    H = T+2.0*w
+
+    xlim = [xLE-0.5*L, xTE+2.0*L]
+    ylim = [yB-0.5*T, yT+0.5*T]
+
+    color_c=(1.0, 0.0, 0.0)
+    color_nc=(0.8, 0.8, 0.8)
+    lw_c = 0.6
+    lw_nc = 0.4
+
+    X = np.load('Data/{case}/X.npy'.format(case=case))
+    Y = np.load('Data/{case}/Y.npy'.format(case=case))
+    U = np.load('Data/{case}/U.npy'.format(case=case))
+    V = np.load('Data/{case}/V.npy'.format(case=case))
+    P = np.load('Data/{case}/P.npy'.format(case=case))
+    UV_mag = np.sqrt(U*U+V*V)
+    plate_x = [xLE, xTE, xTE, xLE]
+    plate_y = [yb, yb, yt, yt]
+    wallT_x = [xmin, xmax, xmax, xmin]
+    wallT_y = [yT, yT, yT+10.0, yT+10.0]
+    wallB_x = [xmin, xmax, xmax, xmin]
+    wallB_y = [yB-10, yB-10, yB, yB]
+    plate_fc = (0.95, 0.95, 0.95)
+    plate_ec = (0.1, 0.1, 0.1)
+    plate_hc = (0.9, 0.9, 0.9)
+    plate_h_lw =  0.6
+    plate_lw = 1.0
+
+    x = X[:,0]
+    y = Y[0,:]
+
+    #plt.
+    #plt.contour(X.T,Y.T,UV_mag.T,colors=['black'], levels=[0.0])
+    #plt.quiver(X,Y,U/UV_mag,V/UV_mag,scale=100.0)
+    #plt.show()
+
+
+
+    dUdx = (U[1:,1:]-U[:-1,1:])/(X[1:,1:]-X[:-1,1:])
+    dUdy = (U[1:,1:]-U[1:,:-1])/(Y[1:,1:]-Y[1:,:-1])
+    dVdx = (V[1:,1:]-V[:-1,1:])/(X[1:,1:]-X[:-1,1:])
+    dVdy = (V[1:,1:]-V[1:,:-1])/(Y[1:,1:]-Y[1:,:-1])
+    O = (dVdx-dUdy)
+
+
+    fig,ax = plt.subplots(2,1,sharex=True,sharey=True)
+    
+    for i in range(2):
+
+        ax[i].fill(plate_x,plate_y,fc=plate_fc,ec=plate_hc,lw=plate_h_lw,hatch='///',zorder=100)
+        ax[i].fill(plate_x,plate_y,fill=False,ec=plate_ec,lw=plate_lw,zorder=200)
+        
+        ax[i].fill(wallT_x,wallT_y,fc=plate_fc,ec=plate_hc,lw=plate_h_lw,hatch='///',zorder=100)
+        ax[i].fill(wallT_x,wallT_y,fill=False,ec=plate_ec,lw=plate_lw,zorder=200)
+
+        ax[i].fill(wallB_x,wallB_y,fc=plate_fc,ec=plate_hc,lw=plate_h_lw,hatch='///',zorder=100)
+        ax[i].fill(wallB_x,wallB_y,fill=False,ec=plate_ec,lw=plate_lw,zorder=200)
+
+    m = []
+    m += [ax[0].imshow(UV_mag.T,
+            cmap=plt.cm.Greys.reversed(),
+            extent=[xmin, xmax, yT, yB],
+            interpolation='bicubic')]
+    m += [ax[1].imshow(O.T, vmin=-8.0, vmax=8.0,
+            cmap=plt.cm.seismic,
+            extent=[xmin, xmax, yT, yB],
+            interpolation='bicubic')]
+
+
+    dxlim = xlim[1]-xlim[0]
+    dylim = ylim[1]-ylim[0]
+    dydx = dylim/dxlim
+    cm = 1.0/2.54
+    mm = cm/10.0
+    fig_w = 20*cm
+    fig_h = dydx*fig_w
+    fig.set_size_inches(fig_w,2*fig_h)
+
+    for i in range(2):
+        ax[i].set(xlim=xlim, ylim=ylim)
+        divider = make_axes_locatable(ax[i])
+        cax = divider.append_axes('right', size=0.2*cm, pad=0.2*cm)
+        fig.colorbar(m[i],cax=cax,orientation='vertical')
+
+    fig.savefig('fig2.svg',format='svg',dpi=1200)
 #for case in cases[0:5]:
 #    run(case)
 #plt.show()
 #case='WD1.0LT5.0'
-for case in ['WD2.0LT5.0','WD2.0LT8.0']:
-    generate(case)
-    #run2(case)
+#plot_quantity(cases[3])
+
+case = 'WD3.0LT8.0'
+plot_streamplot(case)
+#plt.show()
