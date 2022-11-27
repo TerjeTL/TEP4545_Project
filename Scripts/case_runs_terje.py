@@ -35,13 +35,13 @@ class Case:
         return rc
 
 def main():
-    lt_list = [5.0, 6.0, 8.0]
-    wd_list = [3.0, 1.0]
+    lt_list = [8.0]
+    wd_list = [2.0]
 
     for i in range(len(lt_list)):
         for j in range(len(wd_list)):
             case_name = "LT"+str(lt_list[i])+"/"+"WD"+str(wd_list[j])
-            test_case = Case(case_name, 1.2e-4, lt_list[i], 2.25e3, wd_list[j])
+            test_case = Case(case_name, 1.25e-4, lt_list[i], 2.25e3, wd_list[j])
             test_case.run()
 
 if __name__ == '__main__':
