@@ -274,6 +274,6 @@ def run2(case):
 #    run(case)
 #plt.show()
 #case='WD1.0LT5.0'
-for case in ['WD3.0LT5.0','WD3.0LT6.0','WD3.0LT8.0']:
+for case in ['WD2.0LT5.0','WD2.0LT8.0']:
     generate(case)
     #run2(case)
