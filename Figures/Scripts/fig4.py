@@ -273,6 +273,7 @@ def run2(case):
 #for case in cases[0:5]:
 #    run(case)
 #plt.show()
-case='WD1.0LT5.0'
-generate(case)
-run2(case)
+#case='WD1.0LT5.0'
+for case in ['WD2.0LT5.0','WD2.0LT8.0']:
+    generate(case)
+    #run2(case)
