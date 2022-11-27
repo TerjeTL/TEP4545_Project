@@ -22,62 +22,62 @@ FoamFile
     {
         type            patch;
         nFaces          69;
-        startFace       148673;
+        startFace       151916;
     }
     outlet
     {
         type            patch;
         nFaces          69;
-        startFace       148742;
+        startFace       151985;
     }
     topWall
     {
         type            wall;
         inGroups        1(wall);
         nFaces          1149;
-        startFace       148811;
+        startFace       152054;
     }
     lowerWall
     {
         type            wall;
         inGroups        1(wall);
         nFaces          1149;
-        startFace       149960;
+        startFace       153203;
     }
     leadingEdge
     {
         type            wall;
         inGroups        1(wall);
         nFaces          23;
-        startFace       151109;
+        startFace       154352;
     }
     trailingEdge
     {
         type            wall;
         inGroups        1(wall);
         nFaces          23;
-        startFace       151132;
+        startFace       154375;
     }
     upperSurface
     {
         type            wall;
         inGroups        1(wall);
-        nFaces          184;
-        startFace       151155;
+        nFaces          115;
+        startFace       154398;
     }
     lowerSurface
     {
         type            wall;
         inGroups        1(wall);
-        nFaces          184;
-        startFace       151339;
+        nFaces          115;
+        startFace       154513;
     }
     frontAndBack
     {
         type            empty;
         inGroups        1(empty);
-        nFaces          150098;
-        startFace       151523;
+        nFaces          153272;
+        startFace       154628;
     }
 )
 
