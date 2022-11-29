@@ -24,8 +24,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy
 
-
-
 for case in cases:
 
     filename = 'Data/{case}/export_data.csv'.format(case=case)
