@@ -1,3 +1,8 @@
+Add repo
+```git
+git clone ...
+```
+
 Check file changes (staged/unstaged) and number of commits ahead/behind upstream
 ```git
 git status
